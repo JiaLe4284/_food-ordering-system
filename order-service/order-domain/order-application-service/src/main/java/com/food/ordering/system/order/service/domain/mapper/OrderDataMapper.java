@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 
 @Component
 public class OrderDataMapper {
-
   public Restaurant toRestaurant(CreateOrderCommand createOrderCommand) {
     return Restaurant.builder()
         .restaurantId(new RestaurantId(createOrderCommand.getRestaurantId()))
@@ -52,7 +51,6 @@ public class OrderDataMapper {
         .build();
   }
 
-
   private StreetAddress toStreetAddress(OrderAddress orderAddress) {
     return new StreetAddress(
         UUID.randomUUID(),
@@ -61,14 +59,16 @@ public class OrderDataMapper {
         orderAddress.getCity());
   }
 
-  private List<OrderItem> toOrderItemEntities(List<com.food.ordering.system.order.service.domain.dto.create.OrderItem> orderItems) {
-    return orderItems.stream().map(item ->
-        OrderItem.builder()
+  private List<OrderItem> toOrderItemEntities(
+      List<com.food.ordering.system.order.service.domain.dto.create.OrderItem> orderItems) {
+    return orderItems
+        .stream()
+        .map(item -> OrderItem.builder()
             .product(new Product(new ProductId(item.getProductId())))
             .price(new Money(item.getPrice()))
             .quantity(item.getQuantity())
             .subTotal(new Money(item.getSubTotal()))
-            .build()
-    ).collect(Collectors.toList());
+            .build())
+        .collect(Collectors.toList());
   }
 }

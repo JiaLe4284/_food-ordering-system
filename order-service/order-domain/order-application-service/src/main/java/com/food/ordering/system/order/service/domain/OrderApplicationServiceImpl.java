@@ -13,7 +13,6 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 @Service
 class OrderApplicationServiceImpl implements OrderApplicationService {
-
   private final OrderCreateCommandHandler orderCreateCommandHandler;
 
   private final OrderTrackCommandHandler orderTrackCommandHandler;
