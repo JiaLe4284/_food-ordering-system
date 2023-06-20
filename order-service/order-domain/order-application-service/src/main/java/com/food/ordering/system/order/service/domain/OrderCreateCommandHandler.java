@@ -13,11 +13,13 @@ import org.springframework.stereotype.Component;
 public class OrderCreateCommandHandler {
   private final OrderCreateHelper orderCreateHelper;
   private final OrderDataMapper orderDataMapper;
-  private final OrderCreatedPaymentRequestMessagePublisher orderCreatedPaymentRequestMessagePublisher;
+  private final OrderCreatedPaymentRequestMessagePublisher
+      orderCreatedPaymentRequestMessagePublisher;
 
-  public OrderCreateCommandHandler(OrderCreateHelper orderCreateHelper,
-                                   OrderDataMapper orderDataMapper,
-                                   OrderCreatedPaymentRequestMessagePublisher orderCreatedPaymentRequestMessagePublisher) {
+  public OrderCreateCommandHandler(
+      OrderCreateHelper orderCreateHelper,
+      OrderDataMapper orderDataMapper,
+      OrderCreatedPaymentRequestMessagePublisher orderCreatedPaymentRequestMessagePublisher) {
     this.orderCreateHelper = orderCreateHelper;
     this.orderDataMapper = orderDataMapper;
     this.orderCreatedPaymentRequestMessagePublisher = orderCreatedPaymentRequestMessagePublisher;
@@ -27,6 +29,7 @@ public class OrderCreateCommandHandler {
     OrderCreatedEvent orderCreatedEvent = orderCreateHelper.persistOrder(createOrderCommand);
     log.info("Order is created with id: {}", orderCreatedEvent.getOrder().getId().id());
     orderCreatedPaymentRequestMessagePublisher.publish(orderCreatedEvent);
-    return orderDataMapper.toCreateOrderResponse(orderCreatedEvent.getOrder(), "Order Created Successfully.");
+    return orderDataMapper.toCreateOrderResponse(
+        orderCreatedEvent.getOrder(), "Order Created Successfully.");
   }
 }

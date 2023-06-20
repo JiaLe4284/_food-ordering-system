@@ -64,8 +64,7 @@ public class OrderItem extends BaseEntity<OrderItemId> {
     private Money price;
     private Money subTotal;
 
-    private Builder() {
-    }
+    private Builder() {}
 
     public static Builder newBuilder() {
       return new Builder();
@@ -105,5 +104,4 @@ public class OrderItem extends BaseEntity<OrderItemId> {
       return new OrderItem(this);
     }
   }
-
 }

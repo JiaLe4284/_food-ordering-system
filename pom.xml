@@ -3,13 +3,15 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <modules>
-        <module>order-service</module>
         <module>common</module>
+        <module>order-service</module>
+        <module>infrastructure</module>
     </modules>
 
     <parent>
-        <!-- parent pom will loaded from spring boot lib-->
+        <!-- parent pom will be loaded from spring boot lib-->
         <artifactId>spring-boot-starter-parent</artifactId>
         <groupId>org.springframework.boot</groupId>
         <version>2.6.7</version>
@@ -29,6 +31,7 @@
     <properties>
         <maven-compiler-plugin.version>3.9.0</maven-compiler-plugin.version>
         <mockito.version>4.3.1</mockito.version>
+        <spotless-maven-plugin.version>2.34.0</spotless-maven-plugin.version>
     </properties>
 
     <!-- Unifies the versions for dep in the child modules-->
@@ -99,6 +102,23 @@
                 <version>${maven-compiler-plugin.version}</version>
                 <configuration>
                     <release>17</release>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.diffplug.spotless</groupId>
+                <artifactId>spotless-maven-plugin</artifactId>
+                <version>${spotless-maven-plugin.version}</version>
+                <configuration>
+                    <java>
+                        <includes>
+                            <include>src/main/java/**/*.java</include> <!-- Check application code -->
+                            <include>src/test/java/**/*.java</include> <!-- Check application tests code -->
+                        </includes>
+                        <googleJavaFormat>
+                            <version>1.17.0</version>
+                            <style>GOOGLE</style>
+                        </googleJavaFormat>
+                    </java>
                 </configuration>
             </plugin>
         </plugins>

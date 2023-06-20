@@ -18,7 +18,8 @@ public class OrderTestConfiguration {
   }
 
   @Bean
-  public OrderCancelledPaymentRequestMessagePublisher orderCancelledPaymentRequestMessagePublisher() {
+  public OrderCancelledPaymentRequestMessagePublisher
+      orderCancelledPaymentRequestMessagePublisher() {
     return Mockito.mock(OrderCancelledPaymentRequestMessagePublisher.class);
   }
 

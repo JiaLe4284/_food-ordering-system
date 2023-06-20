@@ -13,12 +13,11 @@ import com.food.ordering.system.order.service.domain.entity.OrderItem;
 import com.food.ordering.system.order.service.domain.entity.Product;
 import com.food.ordering.system.order.service.domain.entity.Restaurant;
 import com.food.ordering.system.order.service.domain.valueobject.StreetAddress;
-import org.springframework.stereotype.Component;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import org.springframework.stereotype.Component;
 
 @Component
 public class OrderDataMapper {
@@ -26,12 +25,13 @@ public class OrderDataMapper {
     return Restaurant.builder()
         .restaurantId(new RestaurantId(createOrderCommand.getRestaurantId()))
         .products(
-            createOrderCommand.getItems().stream().collect(Collectors.toMap(
-                oi -> new ProductId(oi.getProductId()),
-                oi -> new Product(new ProductId(oi.getProductId())),
-                (existing, replacement) -> existing,
-                HashMap::new
-            )))
+            createOrderCommand.getItems().stream()
+                .collect(
+                    Collectors.toMap(
+                        oi -> new ProductId(oi.getProductId()),
+                        oi -> new Product(new ProductId(oi.getProductId())),
+                        (existing, replacement) -> existing,
+                        HashMap::new)))
         .build();
   }
 
@@ -71,14 +71,15 @@ public class OrderDataMapper {
 
   private List<OrderItem> toOrderItemEntities(
       List<com.food.ordering.system.order.service.domain.dto.create.OrderItem> orderItems) {
-    return orderItems
-        .stream()
-        .map(item -> OrderItem.builder()
-            .product(new Product(new ProductId(item.getProductId())))
-            .price(new Money(item.getPrice()))
-            .quantity(item.getQuantity())
-            .subTotal(new Money(item.getSubTotal()))
-            .build())
+    return orderItems.stream()
+        .map(
+            item ->
+                OrderItem.builder()
+                    .product(new Product(new ProductId(item.getProductId())))
+                    .price(new Money(item.getPrice()))
+                    .quantity(item.getQuantity())
+                    .subTotal(new Money(item.getSubTotal()))
+                    .build())
         .collect(Collectors.toList());
   }
 }

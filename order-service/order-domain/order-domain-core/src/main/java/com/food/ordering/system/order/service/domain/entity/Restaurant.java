@@ -3,7 +3,6 @@ package com.food.ordering.system.order.service.domain.entity;
 import com.food.ordering.system.domain.entity.AggregateRoot;
 import com.food.ordering.system.domain.valueobject.ProductId;
 import com.food.ordering.system.domain.valueobject.RestaurantId;
-
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -28,8 +27,7 @@ public class Restaurant extends AggregateRoot<RestaurantId> {
   }
 
   public List<Product> getProducts() {
-    return products.entrySet()
-        .stream()
+    return products.entrySet().stream()
         .flatMap(set -> Stream.of(set.getValue()))
         .collect(Collectors.toList());
   }
@@ -43,8 +41,7 @@ public class Restaurant extends AggregateRoot<RestaurantId> {
     private Map<ProductId, Product> products;
     private boolean active;
 
-    private Builder() {
-    }
+    private Builder() {}
 
     public static Builder newBuilder() {
       return new Builder();

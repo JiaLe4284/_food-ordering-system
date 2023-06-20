@@ -8,10 +8,9 @@ import com.food.ordering.system.order.service.domain.event.OrderCancelledEvent;
 import com.food.ordering.system.order.service.domain.event.OrderCreatedEvent;
 import com.food.ordering.system.order.service.domain.event.OrderPaidEvent;
 import com.food.ordering.system.order.service.domain.exception.OrderDomainException;
-import lombok.extern.slf4j.Slf4j;
-
 import java.util.List;
 import java.util.function.Consumer;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class OrderDomainServiceImpl implements OrderDomainService {
@@ -20,8 +19,8 @@ public class OrderDomainServiceImpl implements OrderDomainService {
   public OrderCreatedEvent validateAndInitiateOrder(Order order, Restaurant restaurant) {
     validateRestaurant(restaurant);
     setProductOrderInfo(order, restaurant);
-    order.validateOrder();
     order.initializeOrder();
+    order.validateOrder();
     log.info("Order with id: {} is initiated", order.getId().id());
     return OrderCreatedEvent.of(order);
   }
@@ -54,16 +53,19 @@ public class OrderDomainServiceImpl implements OrderDomainService {
 
   private void validateRestaurant(Restaurant restaurant) {
     if (!restaurant.isActive()) {
-      throw new OrderDomainException("Restaurant with id " + restaurant.getId().id() + " is currently not active.");
+      throw new OrderDomainException(
+          "Restaurant with id " + restaurant.getId().id() + " is currently not active.");
     }
   }
 
   private void setProductOrderInfo(Order order, Restaurant restaurant) {
-    Consumer<OrderItem> updateProductInfo = orderItem -> {
-      Product orderItemProduct = orderItem.getProduct();
-      Product restaurantProduct = restaurant.getProduct(orderItem.getProduct().getId());
-      orderItemProduct.updateWithConfirmedNameAndPrice(restaurantProduct.name(), restaurantProduct.price());
-    };
+    Consumer<OrderItem> updateProductInfo =
+        orderItem -> {
+          Product orderItemProduct = orderItem.getProduct();
+          Product restaurantProduct = restaurant.getProduct(orderItem.getProduct().getId());
+          orderItemProduct.updateWithConfirmedNameAndPrice(
+              restaurantProduct.name(), restaurantProduct.price());
+        };
     order.getItems().forEach(updateProductInfo);
   }
 }

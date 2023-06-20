@@ -12,12 +12,8 @@ import org.springframework.validation.annotation.Validated;
 public class PaymentResponseMessageListenerImpl implements PaymentResponseMessageListener {
 
   @Override
-  public void paymentCompleted(PaymentResponse paymentResponse) {
-
-  }
+  public void paymentCompleted(PaymentResponse paymentResponse) {}
 
   @Override
-  public void paymentCancelled(PaymentResponse paymentResponse) {
-
-  }
+  public void paymentCancelled(PaymentResponse paymentResponse) {}
 }

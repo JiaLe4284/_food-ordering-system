@@ -6,6 +6,6 @@ import java.util.UUID;
 public record OrderId(UUID id) {
   // compact constructor
   public OrderId {
-    id = Objects.requireNonNullElseGet(id,  UUID::randomUUID);
+    id = Objects.requireNonNullElseGet(id, UUID::randomUUID);
   }
 }

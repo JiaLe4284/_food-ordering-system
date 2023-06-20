@@ -6,7 +6,6 @@ import com.food.ordering.system.order.service.domain.exception.OrderDomainExcept
 import com.food.ordering.system.order.service.domain.valueobject.OrderItemId;
 import com.food.ordering.system.order.service.domain.valueobject.StreetAddress;
 import com.food.ordering.system.order.service.domain.valueobject.TrackingId;
-
 import java.util.List;
 import java.util.UUID;
 
@@ -67,7 +66,8 @@ public class Order extends AggregateRoot<OrderId> {
 
   private void updateFailureMessage(List<String> failureMessages) {
     if (this.failureMessages != null && failureMessages != null) {
-      this.failureMessages.addAll(failureMessages.stream().filter(message -> !message.isEmpty()).toList());
+      this.failureMessages.addAll(
+          failureMessages.stream().filter(message -> !message.isEmpty()).toList());
     }
     if (this.failureMessages == null) {
       this.failureMessages = failureMessages;
@@ -87,21 +87,31 @@ public class Order extends AggregateRoot<OrderId> {
   }
 
   private void validateItemsPrice() {
-    Money orderItemsTotal = items.stream().map(orderItem -> {
-      validateItemPrice(orderItem);
-      return orderItem.getSubTotal();
-    }).reduce(Money.ZERO, Money::add);
+    Money orderItemsTotal =
+        items.stream()
+            .map(
+                orderItem -> {
+                  validateItemPrice(orderItem);
+                  return orderItem.getSubTotal();
+                })
+            .reduce(Money.ZERO, Money::add);
 
     if (!price.equals(orderItemsTotal)) {
-      throw new OrderDomainException("Total price: " + price.amount() +
-          " is not equal to Order Item total: " + orderItemsTotal.amount());
+      throw new OrderDomainException(
+          "Total price: "
+              + price.amount()
+              + " is not equal to Order Item total: "
+              + orderItemsTotal.amount());
     }
   }
 
   private void validateItemPrice(OrderItem orderItem) {
     if (!orderItem.isPriceValid()) {
-      throw new OrderDomainException("Order item price: " + orderItem.getPrice().amount() +
-          " is not valid for product " + orderItem.getProduct().getId().id());
+      throw new OrderDomainException(
+          "Order item price: "
+              + orderItem.getPrice().amount()
+              + " is not valid for product "
+              + orderItem.getProduct().getId().id());
     }
   }
 
@@ -171,8 +181,7 @@ public class Order extends AggregateRoot<OrderId> {
     private OrderStatus orderStatus;
     private List<String> failureMessages;
 
-    private Builder() {
-    }
+    private Builder() {}
 
     public static Builder newBuilder() {
       return new Builder();
