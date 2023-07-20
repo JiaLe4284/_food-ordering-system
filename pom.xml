@@ -8,6 +8,10 @@
         <module>common</module>
         <module>order-service</module>
         <module>infrastructure</module>
+        <module>infrastructure/kafka/kafka-config-data</module>
+        <module>infrastructure/kafka/kafka-consumer</module>
+        <module>infrastructure/kafka/kafka-model</module>
+        <module>infrastructure/kafka/kafka-producer</module>
     </modules>
 
     <parent>
@@ -32,6 +36,9 @@
         <maven-compiler-plugin.version>3.9.0</maven-compiler-plugin.version>
         <mockito.version>4.3.1</mockito.version>
         <spotless-maven-plugin.version>2.34.0</spotless-maven-plugin.version>
+        <spring-kafka.version>2.9.2</spring-kafka.version>
+        <kafka-avro-serializer.version>7.2.1</kafka-avro-serializer.version>
+        <avro.version>1.11.1</avro.version>
     </properties>
 
     <!-- Unifies the versions for dep in the child modules-->
@@ -72,6 +79,29 @@
                 <artifactId>common-domain</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
+            <!-- infrastructure kafka-->
+            <dependency>
+                <groupId>com.food.ordering.system</groupId>
+                <artifactId>kafka-producer</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.food.ordering.system</groupId>
+                <artifactId>kafka-consumer</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.food.ordering.system</groupId>
+                <artifactId>kafka-model</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.food.ordering.system</groupId>
+                <artifactId>kafka-config-data</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-core</artifactId>
